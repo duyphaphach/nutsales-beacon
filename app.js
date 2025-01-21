@@ -12,13 +12,15 @@ const uap = require('ua-parser-js');
 
 const beaconPath = path.join(__dirname, 'assets/icons/nut-beacon.gif');
 
+app.set('trust proxy', true);
+
 app.get('/api/notifications/emails/beacon/:trackingJwt.gif',
   async function (req, res, next) {
     const { trackingJwt } = req.params;
 
     try {
       console.log("trackingJwt", trackingJwt);
-      const ip = requestIp.getClientIp(req);
+      const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
       const geo = geoip.lookup(ip || "");
       let ua = uap(req.headers['user-agent']);
       const accept = accepts(req);
