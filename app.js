@@ -34,7 +34,7 @@ app.get('/api/notifications/emails/beacon/:trackingJwt.gif',
         charsets: accept.charsets(),
       };
 
-      console.log('trackingData:', JSON.stringify(data, null, 2));
+      console.log('trackingData:', JSON.stringify(data));
 
       res.sendFile(beaconPath);
     } catch (error) {
