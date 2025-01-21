@@ -20,7 +20,9 @@ app.get('/api/notifications/emails/beacon/:trackingJwt.gif',
 
     try {
       console.log("trackingJwt", trackingJwt);
-      const ips = (req.headers["x-forwarded-for"] || req.socket.remoteAddress).split(",");
+      const ips = (req.headers["x-forwarded-for"] || req.socket.remoteAddress)
+        .split(",")
+        .map((ip) => ip.trim());
       let ua = uap(req.headers['user-agent']);
       const accept = accepts(req);
 
