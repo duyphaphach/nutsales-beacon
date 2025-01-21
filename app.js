@@ -20,8 +20,7 @@ app.get('/api/notifications/emails/beacon/:trackingJwt.gif',
 
     try {
       console.log("trackingJwt", trackingJwt);
-      const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-      const geo = geoip.lookup(ip || "");
+      const ips = (req.headers["x-forwarded-for"] || req.socket.remoteAddress).split(",");
       let ua = uap(req.headers['user-agent']);
       const accept = accepts(req);
 
@@ -29,8 +28,8 @@ app.get('/api/notifications/emails/beacon/:trackingJwt.gif',
       const { userId, emailId } = trackingData;
 
       const data = {
-        ip,
-        geo,
+        ips,
+        geos: ips.map(ip => geoip.lookup(ip)),
         ua,
         langs: accept.languages(),
         charsets: accept.charsets(),
